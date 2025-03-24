@@ -60,7 +60,7 @@ const BlogListComponent = () => {
   return (
     <div className=" h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden flex flex-col gap-5">
       {blogList.length === 0 ? (
-        <p className="text-center text-5xl font-bold">No feed</p>
+        <p className="text-center text-5xl font-bold text-primary">No feed</p>
       ) : (
         blogList.map((blog) => (
           <motion.div
