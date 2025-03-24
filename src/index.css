@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #606c38;
+  --color-secondary: #283618;
+  --color-accents: #fefae0;
+  --color-tertiary: #dda15e;
+  --color-brown: #bc6c25;
+  --color-textColor: #000814;
+}
+
+@layer utilities {
+  .bodyContent {
+    @apply 'mx-3 2xl:w-[1300px] 2xl:mx-auto';
+  }
+}
