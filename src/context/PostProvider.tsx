@@ -1,7 +1,7 @@
 import { useState, useEffect, ReactNode } from "react";
 import { BlogContext } from "./usePostContext";
 
-interface Post {
+interface Blog {
   id: string;
   title: string;
   content: string;
@@ -12,28 +12,28 @@ interface Post {
 }
 
 export interface BlogContextType {
-  postList: Post[];
-  addToPostList: (post: Omit<Post, "id" | "createdAt">) => void;
-  updatePost: (id: string, updates: Partial<Post>) => void;
-  deletePost: (id: string) => void;
-  getPostByID: (id: string) => void;
+  blogList: Blog[];
+  addToBlogList: (blog: Omit<Blog, "id" | "createdAt">) => void;
+  updateBlog: (id: string, updates: Partial<Blog>) => void;
+  deleteBlog: (id: string) => void;
+  getBlogByID: (id: string) => void;
 }
 ///////////////
 export const BlogProvider = ({ children }: { children: ReactNode }) => {
   //post initialisation
-  const [postList, setPostList] = useState<Post[]>(() => {
-    const savedPosts = localStorage.getItem("postList");
+  const [blogList, setBlogList] = useState<Blog[]>(() => {
+    const savedPosts = localStorage.getItem("blogList");
     return savedPosts ? JSON.parse(savedPosts) : [];
   });
   //save post to local storage
   useEffect(() => {
-    localStorage.setItem("postList", JSON.stringify(postList));
-  }, [postList]);
+    localStorage.setItem("postList", JSON.stringify(blogList));
+  }, [blogList]);
 
   //add post to postList
-  const addToPostList = (post: Omit<Post, "id" | "createdAt">) => {
-    const newPost: Post = {
-      ...post,
+  const addToBlogList = (blog: Omit<Blog, "id" | "createdAt">) => {
+    const newBlog: Blog = {
+      ...blog,
       id: Date.now().toString(),
       createdAt: new Date().toLocaleString("en-US", {
         hour: "2-digit",
@@ -42,15 +42,15 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
         hour12: true, // Use false for 24-hour format
       }),
     };
-    setPostList((prevPost) => [newPost, ...prevPost]);
+    setBlogList((prevBlog) => [newBlog, ...prevBlog]);
   };
-  //update or Edit post
-  const updatePost = (id: string, updates: Partial<Post>) => {
-    setPostList((prevPost) =>
-      prevPost.map((post) =>
-        post.id === id
+  //update or Edit Blog
+  const updateBlog = (id: string, updates: Partial<Blog>) => {
+    setBlogList((prevBlog) =>
+      prevBlog.map((blog) =>
+        blog.id === id
           ? {
-              ...post,
+              ...blog,
               ...updates,
               isEdited: true,
               editedAt: new Date().toLocaleString("en-US", {
@@ -63,21 +63,21 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
                 hour12: true, // Use false for 24-hour format
               }),
             }
-          : post
+          : blog
       )
     );
   };
   //delete psot
-  const deletePost = (id: string) => {
-    setPostList((prevPost) => prevPost.filter((post) => post.id !== id));
+  const deleteBlog = (id: string) => {
+    setBlogList((prevPost) => prevPost.filter((blog) => blog.id !== id));
   };
 
   //find post by ID
-  const getPostByID = (id: string) => postList.find((post) => post.id === id);
+  const getBlogByID = (id: string) => blogList.find((blog) => blog.id === id);
 
   return (
     <BlogContext.Provider
-      value={{ postList, addToPostList, updatePost, deletePost, getPostByID }}>
+      value={{ blogList, addToBlogList, updateBlog, deleteBlog, getBlogByID }}>
       {children}
     </BlogContext.Provider>
   );
