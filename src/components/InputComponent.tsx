@@ -12,7 +12,7 @@ const InputComponent = ({
   return (
     <input
       type="text"
-      className="h-10 w-full border border-green px-2 bg-gray rounded-lg focus:outline-none  "
+      className="h-10 w-full border border-brown px-2 bg-gray rounded-lg focus:outline-none  "
       placeholder={placeHolder}
       onChange={onChange}
       value={value}

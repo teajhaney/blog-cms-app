@@ -13,7 +13,7 @@ const TextareaComponent = ({
 }: TextareaComponentProps) => {
   return (
     <textarea
-      className={` w-full border border-green px-2 bg-gray rounded-lg focus:outline-none ${className}`}
+      className={` w-full border border-brown px-2 bg-gray rounded-lg focus:outline-none ${className}`}
       placeholder={placeHolder}
       onChange={onChange}
       value={value}

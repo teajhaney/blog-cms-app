@@ -5,7 +5,6 @@ import {
   ButtonComponent,
   InputComponent,
   TextareaComponent,
- 
 } from "../components/export_components";
 import { useBlogContext } from "../context/usePostContext";
 
@@ -23,7 +22,7 @@ const HomePage = () => {
     setBlogContent("");
   };
   return (
-    <section className="relative bodyContent border border-primary rounded  my-20  h-screen flex flex-col gap-2">
+    <section className="relative bodyContent bg-accents rounded  my-20  h-fit flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl md:text-5xl font-extrabold text-primary">
           Create blog
