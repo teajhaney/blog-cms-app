@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { GrPowerReset } from "react-icons/gr";
 import {
+  BlogListComponent,
   ButtonComponent,
   InputComponent,
   TextareaComponent,
+ 
 } from "../components/export_components";
 import { useBlogContext } from "../context/usePostContext";
 
 const HomePage = () => {
-  const { addToBlogList } = useBlogContext();
+  const { addToBlogList, clearBlogs } = useBlogContext();
   const [title, setTitle] = useState("");
   const [blogContent, setBlogContent] = useState("");
 
@@ -20,8 +23,16 @@ const HomePage = () => {
     setBlogContent("");
   };
   return (
-    <div className="bodyContent border border-primary rounded  my-20  h-screen flex flex-col gap-2">
-      <h1 className="text-5xl font-extrabold text-primary">Create blog</h1>
+    <section className="relative bodyContent border border-primary rounded  my-20  h-screen flex flex-col gap-2">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl md:text-5xl font-extrabold text-primary">
+          Create blog
+        </h1>
+        <GrPowerReset
+          className="cursor-pointer text-2xl text-primary"
+          onClick={clearBlogs}
+        />
+      </div>
       {/* create blog */}
       <form onSubmit={HandleAddToBlogList}>
         <div className="flex flex-col gap-2">
@@ -33,17 +44,24 @@ const HomePage = () => {
           <TextareaComponent
             placeHolder="Write your blog... (include Markdown)"
             value={blogContent}
+            className="min-h-30"
             onChange={(e) => setBlogContent(e.target.value)}
           />
           <ButtonComponent
             text="Post blog"
             type="submit"
-            className={"bg-secondary self-end"}
+            className={"bg-secondary self-end text-sm md:text-2xl "}
           />
         </div>
       </form>
-      <h1 className="text-5xl font-extrabold text-primary">FEED</h1>
-    </div>
+      {/* feed */}
+      <div className="flex flex-col gap-3">
+        <h1 className="text-2xl md:text-5xl font-extrabold text-primary">
+          FEED
+        </h1>
+        <BlogListComponent />
+      </div>
+    </section>
   );
 };
 

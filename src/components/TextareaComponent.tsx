@@ -2,16 +2,18 @@ interface TextareaComponentProps {
   placeHolder: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  className?: string;
 }
 
 const TextareaComponent = ({
   placeHolder,
   onChange,
-  value,
+    value,
+  className
 }: TextareaComponentProps) => {
   return (
     <textarea
-      className="h-30 w-full border border-green px-2 bg-gray rounded-lg focus:outline-none  "
+      className={` w-full border border-green px-2 bg-gray rounded-lg focus:outline-none ${className}`}
       placeholder={placeHolder}
       onChange={onChange}
       value={value}

@@ -17,6 +17,7 @@ export interface BlogContextType {
   updateBlog: (id: string, updates: Partial<Blog>) => void;
   deleteBlog: (id: string) => void;
   getBlogByID: (id: string) => void;
+  clearBlogs: () => void;
 }
 ///////////////
 export const BlogProvider = ({ children }: { children: ReactNode }) => {
@@ -27,7 +28,7 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
   });
   //save post to local storage
   useEffect(() => {
-    localStorage.setItem("postList", JSON.stringify(blogList));
+    localStorage.setItem("blogList", JSON.stringify(blogList));
   }, [blogList]);
 
   //add post to postList
@@ -72,12 +73,25 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
     setBlogList((prevPost) => prevPost.filter((blog) => blog.id !== id));
   };
 
+  //Clear blog
+  const clearBlogs = () => {
+    localStorage.clear();
+    setBlogList([]);
+  };
+
   //find post by ID
   const getBlogByID = (id: string) => blogList.find((blog) => blog.id === id);
 
   return (
     <BlogContext.Provider
-      value={{ blogList, addToBlogList, updateBlog, deleteBlog, getBlogByID }}>
+      value={{
+        blogList,
+        addToBlogList,
+        updateBlog,
+        deleteBlog,
+        clearBlogs,
+        getBlogByID,
+      }}>
       {children}
     </BlogContext.Provider>
   );
