@@ -15,7 +15,10 @@ export interface BlogContextType {
   postList: Post[];
   addToPostList: (post: Omit<Post, "id" | "createdAt">) => void;
   updatePost: (id: string, updates: Partial<Post>) => void;
+  deletePost: (id: string) => void;
+  getPostByID: (id: string) => void;
 }
+///////////////
 export const BlogProvider = ({ children }: { children: ReactNode }) => {
   //post initialisation
   const [postList, setPostList] = useState<Post[]>(() => {
@@ -64,9 +67,17 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
       )
     );
   };
+  //delete psot
+  const deletePost = (id: string) => {
+    setPostList((prevPost) => prevPost.filter((post) => post.id !== id));
+  };
+
+  //find post by ID
+  const getPostByID = (id: string) => postList.find((post) => post.id === id);
 
   return (
-    <BlogContext.Provider value={{ postList, addToPostList, updatePost }}>
+    <BlogContext.Provider
+      value={{ postList, addToPostList, updatePost, deletePost, getPostByID }}>
       {children}
     </BlogContext.Provider>
   );
