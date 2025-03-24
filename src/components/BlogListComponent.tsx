@@ -3,7 +3,7 @@ import { useBlogContext } from "../context/usePostContext";
 import Markdown from "react-markdown";
 import { CiEdit } from "react-icons/ci";
 import { PiTrashThin } from "react-icons/pi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ButtonComponent,
   InputComponent,
@@ -12,11 +12,21 @@ import {
 
 const BlogListComponent = () => {
   const { blogList, deleteBlog, updateBlog } = useBlogContext();
+
   //edit
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
   const [showEditBox, SetShowEditBox] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
+  const [blogEdited, setBlogEdited] = useState(false);
+  const blog = blogList.find((b) => b.id === editId);
+
+  //check if content has changed
+  useEffect(() => {
+    if (blog) {
+      setBlogEdited(editTitle !== blog.title || editContent !== blog.content);
+    }
+  }, [editTitle, editContent, blog]);
   // Animation variants for blog items
   const variants = {
     hidden: { opacity: 0, y: -20 }, // Start above and invisible
@@ -43,11 +53,15 @@ const BlogListComponent = () => {
   //Handle update confirmation
   const handleBlogUpdate = (id: string) => {
     if (!editTitle.trim() && !editContent) return;
-    updateBlog(id, { title: editTitle, content: editContent });
-    SetShowEditBox(false);
-    setEditId(null);
-    setEditContent("");
-    setEditTitle("");
+    if (blogEdited) {
+      updateBlog(id, { title: editTitle, content: editContent });
+      SetShowEditBox(false);
+      setEditId(null);
+      setEditContent("");
+      setEditTitle("");
+    } else {
+      handleBlogUpdateCancel();
+    }
   };
 
   //cancel update
